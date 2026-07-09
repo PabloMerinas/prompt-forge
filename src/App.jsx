@@ -21,7 +21,9 @@ function App() {
         <h1>Un prompt claro no es cuestión de suerte.</h1>
         <p>
           Rellena los campos de abajo (o carga una plantilla) y mira cómo se genera el prompt
-          y cómo cambia el radar de completitud a la derecha, campo a campo.
+          y cómo cambia el radar de completitud a la derecha, campo a campo. Cuando esté listo,
+          pruébalo de verdad en Claude, ChatGPT o Gemini, o comparte el enlace para que otra
+          persona lo edite desde donde lo dejaste.
         </p>
       </section>
 
