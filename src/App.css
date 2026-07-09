@@ -135,6 +135,23 @@ main {
   border-color: var(--accent);
 }
 
+.field textarea.field-highlight {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.template-hint {
+  font-size: 0.8rem;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.template-hint strong {
+  color: var(--accent);
+}
+
 .builder-preview {
   display: flex;
   flex-direction: column;

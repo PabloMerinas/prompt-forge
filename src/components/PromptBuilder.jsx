@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Copy, Check, Wand2, Link2, ExternalLink } from 'lucide-react'
 import RadarChart from './RadarChart'
 import { templates } from '../data/templates'
@@ -89,9 +89,13 @@ function loadInitialFields() {
 
 function PromptBuilder() {
   const [fields, setFields] = useState(loadInitialFields)
+  const [activeTemplateId, setActiveTemplateId] = useState(null)
   const [copied, setCopied] = useState(false)
   const [linkCopied, setLinkCopied] = useState(false)
   const [testNotice, setTestNotice] = useState('')
+  const taskRef = useRef(null)
+
+  const activeTemplate = templates.find((t) => t.id === activeTemplateId) ?? null
 
   const prompt = useMemo(() => buildPrompt(fields), [fields])
   const axes = useMemo(
@@ -116,7 +120,15 @@ function PromptBuilder() {
 
   const loadTemplate = (id) => {
     const template = templates.find((t) => t.id === id)
-    if (template) setFields(template.fields)
+    if (!template) return
+    setFields(template.fields)
+    setActiveTemplateId(id)
+    requestAnimationFrame(() => taskRef.current?.focus())
+  }
+
+  const clearFields = () => {
+    setFields(emptyFields)
+    setActiveTemplateId(null)
   }
 
   const copyPrompt = async () => {
@@ -166,20 +178,28 @@ function PromptBuilder() {
                 {t.name}
               </button>
             ))}
-            <button type="button" className="chip chip-clear" onClick={() => setFields(emptyFields)}>
+            <button type="button" className="chip chip-clear" onClick={clearFields}>
               Limpiar
             </button>
           </div>
+          {activeTemplate && (
+            <p className="template-hint">
+              Rol, formato y restricciones ya están rellenos. Solo falta la <strong>Tarea</strong>:
+              cuenta abajo lo que necesitas esta vez.
+            </p>
+          )}
         </div>
 
         {fieldConfig.map((f) => (
           <label key={f.key} className="field">
             <span>{f.label}</span>
             <textarea
+              ref={f.key === 'task' ? taskRef : undefined}
               value={fields[f.key]}
-              placeholder={f.placeholder}
+              placeholder={f.key === 'task' && activeTemplate ? activeTemplate.taskPlaceholder : f.placeholder}
               onChange={(e) => updateField(f.key, e.target.value)}
               rows={f.key === 'task' || f.key === 'context' ? 2 : 1}
+              className={f.key === 'task' && activeTemplate ? 'field-highlight' : undefined}
             />
           </label>
         ))}
