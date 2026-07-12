@@ -74,7 +74,12 @@ function loadInitialFields() {
   const shared = params.get(SHARE_PARAM)
   if (shared) {
     const decoded = decodeFields(shared)
-    if (decoded) return decoded
+    if (decoded) {
+      // Quitamos el ?p= de la URL: si no, al refrescar tras editar se
+      // recargaría siempre el prompt compartido original y se perderían los cambios.
+      window.history.replaceState(null, '', window.location.pathname)
+      return decoded
+    }
   }
 
   try {
