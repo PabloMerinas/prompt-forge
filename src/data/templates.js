@@ -70,24 +70,3 @@ export const templates = [
     },
   },
 ]
-
-export const taskCategories = [
-  'Redacción',
-  'Programación',
-  'Análisis de datos',
-  'Creatividad',
-  'Comunicación',
-  'Estudio',
-  'Otro',
-]
-
-export const tones = ['Formal', 'Cercano', 'Técnico', 'Divertido', 'Directo']
-
-export const outputFormats = [
-  'Lista de puntos',
-  'Párrafos',
-  'Tabla',
-  'Paso a paso',
-  'Código',
-  'Pregunta y respuesta',
-]
